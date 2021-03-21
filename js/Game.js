@@ -2,7 +2,8 @@
  * Project 4 - OOP Game App
  * Game.js */
 const overlayEl = document.querySelector("#overlay");
-
+const listOfHeartsEl = document.querySelectorAll(".tries");
+const gameOverMessageEl = document.querySelector("#game-over-message");
 class Game {
   constructor() {
     this.missed = 0;
@@ -43,9 +44,41 @@ class Game {
 
   handleInteraction() {}
 
-  removeLife() {}
+  removeLife() {
+    this.missed++;
+    for (let i = 0; i < this.missed; i++) {
+      listOfHeartsEl[i].firstElementChild.setAttribute(
+        "src",
+        "images/lostHeart.png"
+      );
+    }
+    if (this.missed == 5) {
+      this.gameOver();
+    }
+  }
 
-  checkForWin() {}
+  checkForWin() {
+    for (let i = 0; i < phraseEl.children.length; i++) {
+      if (
+        phraseEl.children[i].classList.value.includes("hide") &&
+        !phraseEl.children[i].classList.value.includes("space")
+      ) {
+        return false;
+      }
+      return true;
+    }
+  }
 
-  gameOver() {}
+  gameOver() {
+    overlayEl.classList.remove("start");
+    if (this.missed < 5) {
+      overlayEl.classList.add("win");
+      overlayEl.style.display = "inherit";
+      gameOverMessageEl.innerHTML = "YOU WIN!!!";
+    } else if (this.missed === 5) {
+      overlayEl.classList.add("lose");
+      overlayEl.style.display = "inherit";
+      gameOverMessageEl.innerHTML = "AWWW YOU LOST :(";
+    }
+  }
 }

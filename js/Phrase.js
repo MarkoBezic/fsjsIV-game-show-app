@@ -22,7 +22,16 @@ class Phrase {
     phraseEl.innerHTML = phraseHTML;
   }
 
-  checkLetter() {}
+  checkLetter(letter) {
+    return this.phrase.includes(letter);
+  }
 
-  showMatchedLetter() {}
+  showMatchedLetter(letter) {
+    for (let i = 0; i < phraseEl.children.length; i++) {
+      if (phraseEl.children[i].innerHTML === letter) {
+        phraseEl.children[i].classList.add("show");
+        phraseEl.children[i].classList.remove("hide");
+      }
+    }
+  }
 }
