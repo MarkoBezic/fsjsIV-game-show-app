@@ -69,7 +69,6 @@ class Game {
         selectedButton = allKeys[i];
       }
     }
-    console.log(selectedButton);
     selectedButton.disabled = true;
     let isCorrect = this.activePhrase.checkLetter(`${button}`);
     if (isCorrect) {
