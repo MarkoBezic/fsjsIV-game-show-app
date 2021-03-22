@@ -63,16 +63,23 @@ class Game {
   }
 
   handleInteraction(button) {
-    button.disabled = true;
-    let isCorrect = this.activePhrase.checkLetter(`${button.innerHTML}`);
+    let selectedButton = "";
+    for (let i = 0; i < allKeys.length; i++) {
+      if (allKeys[i].innerText === button) {
+        selectedButton = allKeys[i];
+      }
+    }
+    console.log(selectedButton);
+    selectedButton.disabled = true;
+    let isCorrect = this.activePhrase.checkLetter(`${button}`);
     if (isCorrect) {
-      this.activePhrase.showMatchedLetter(`${button.innerText}`);
-      button.classList.add("chosen");
+      this.activePhrase.showMatchedLetter(`${button}`);
+      selectedButton.classList.add("chosen");
       if (this.checkForWin()) {
         this.gameOver();
       }
     } else if (!isCorrect) {
-      button.classList.add("wrong");
+      selectedButton.classList.add("wrong");
       this.removeLife();
     }
   }

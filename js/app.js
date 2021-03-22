@@ -13,6 +13,11 @@ startButton.addEventListener("click", () => {
 
 qwertyEl.addEventListener("click", (e) => {
   if (e.target.classList.value === "key") {
-    game.handleInteraction(e.target);
+    game.handleInteraction(e.target.innerHTML);
   }
+});
+
+document.addEventListener("keydown", (e) => {
+  const letter = e.code.slice(-1).toLowerCase();
+  game.handleInteraction(letter);
 });
