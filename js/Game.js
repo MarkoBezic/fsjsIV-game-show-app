@@ -4,6 +4,7 @@
 const overlayEl = document.querySelector("#overlay");
 const listOfHeartsEl = document.querySelectorAll(".tries");
 const gameOverMessageEl = document.querySelector("#game-over-message");
+const allKeys = document.querySelectorAll(".key");
 class Game {
   constructor() {
     this.missed = 0;
@@ -30,6 +31,25 @@ class Game {
     return arrayOfPhrases;
   }
 
+  resetGame() {
+    //reset previous game
+    ////reset lives
+    for (let i = 0; i < listOfHeartsEl.length; i++) {
+      listOfHeartsEl[i].firstElementChild.setAttribute(
+        "src",
+        "images/liveHeart.png"
+      );
+    }
+    this.missed = 0;
+    ////clear li elements from phraseEl
+    phraseEl.innerHTML = "";
+    ////reset on screen keyboard
+    for (let i = 0; i < allKeys.length; i++) {
+      allKeys[i].classList.remove("chosen", "wrong");
+      allKeys[i].disabled = false;
+    }
+  }
+
   startGame() {
     overlayEl.style.display = "none";
     const phrase = this.getRandomPhrase();
@@ -42,7 +62,20 @@ class Game {
     return this.phrases[randomNumber];
   }
 
-  handleInteraction() {}
+  handleInteraction(button) {
+    button.disabled = true;
+    let isCorrect = this.activePhrase.checkLetter(`${button.innerHTML}`);
+    if (isCorrect) {
+      this.activePhrase.showMatchedLetter(`${button.innerText}`);
+      button.classList.add("chosen");
+      if (this.checkForWin()) {
+        this.gameOver();
+      }
+    } else if (!isCorrect) {
+      button.classList.add("wrong");
+      this.removeLife();
+    }
+  }
 
   removeLife() {
     this.missed++;
@@ -58,24 +91,31 @@ class Game {
   }
 
   checkForWin() {
+    let hiddenLetterArray = [];
     for (let i = 0; i < phraseEl.children.length; i++) {
       if (
         phraseEl.children[i].classList.value.includes("hide") &&
-        !phraseEl.children[i].classList.value.includes("space")
+        phraseEl.children[i].classList.value.includes("letter")
       ) {
-        return false;
+        hiddenLetterArray.push(phraseEl.children[i]);
       }
+    }
+    if (hiddenLetterArray.length === 0) {
       return true;
+    } else {
+      return false;
     }
   }
 
   gameOver() {
     overlayEl.classList.remove("start");
     if (this.missed < 5) {
+      overlayEl.classList.remove("lose");
       overlayEl.classList.add("win");
       overlayEl.style.display = "inherit";
       gameOverMessageEl.innerHTML = "YOU WIN!!!";
     } else if (this.missed === 5) {
+      overlayEl.classList.remove("win");
       overlayEl.classList.add("lose");
       overlayEl.style.display = "inherit";
       gameOverMessageEl.innerHTML = "AWWW YOU LOST :(";
