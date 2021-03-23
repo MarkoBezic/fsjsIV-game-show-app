@@ -9,6 +9,7 @@ class Phrase {
     this.phrase = phrase.toLowerCase();
   }
 
+  //adds the phrase to the screen
   addPhraseToDisplay() {
     const splitPhrase = this.phrase.split("");
     let phraseHTML = "";
@@ -22,10 +23,12 @@ class Phrase {
     phraseEl.innerHTML = phraseHTML;
   }
 
+  // checks to see if selected letter is in the phrase and returns true or false
   checkLetter(letter) {
     return this.phrase.includes(letter);
   }
 
+  // if the selected letter is in the phrase it reveals the letter on screen
   showMatchedLetter(letter) {
     for (let i = 0; i < phraseEl.children.length; i++) {
       if (phraseEl.children[i].innerHTML === letter) {

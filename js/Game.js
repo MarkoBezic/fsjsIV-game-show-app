@@ -12,6 +12,7 @@ class Game {
     this.activePhrase = null;
   }
 
+  //Creates an array of 5 phrases
   createPhrases() {
     let arrayOfPhrases = [];
 
@@ -31,6 +32,7 @@ class Game {
     return arrayOfPhrases;
   }
 
+  //resets game back to initial states
   resetGame() {
     //reset previous game
     ////reset lives
@@ -50,6 +52,7 @@ class Game {
     }
   }
 
+  //Starts the game
   startGame() {
     overlayEl.style.display = "none";
     const phrase = this.getRandomPhrase();
@@ -57,11 +60,13 @@ class Game {
     this.activePhrase = phrase;
   }
 
+  //Gets reandom phrase from the phrases array
   getRandomPhrase() {
     const randomNumber = Math.floor(Math.random() * Math.floor(5));
     return this.phrases[randomNumber];
   }
 
+  //handles user interaction by checking if the use selectd the right letter and updating the game's state accordingly
   handleInteraction(button) {
     let selectedButton = "";
     for (let i = 0; i < allKeys.length; i++) {
@@ -83,6 +88,7 @@ class Game {
     }
   }
 
+  //removes a life from the game's scorecard
   removeLife() {
     this.missed++;
     for (let i = 0; i < this.missed; i++) {
@@ -96,6 +102,7 @@ class Game {
     }
   }
 
+  //checks to see if user has won and returns true or false
   checkForWin() {
     let hiddenLetterArray = [];
     for (let i = 0; i < phraseEl.children.length; i++) {
@@ -113,6 +120,7 @@ class Game {
     }
   }
 
+  // ends the game and brings up the winning or losing screen
   gameOver() {
     overlayEl.classList.remove("start");
     if (this.missed < 5) {
