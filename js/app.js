@@ -18,6 +18,12 @@ qwertyEl.addEventListener("click", (e) => {
 });
 
 document.addEventListener("keydown", (e) => {
-  const letter = e.code.slice(-1).toLowerCase();
-  game.handleInteraction(letter);
+  let letter = e.code.slice(-1).toLowerCase();
+  for (let i = 0; i < allKeys.length; i++) {
+    if (allKeys[i].textContent === letter && allKeys[i].disabled === false) {
+      if (game) {
+        game.handleInteraction(letter);
+      }
+    }
+  }
 });
